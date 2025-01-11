@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class PlayerComponent : MonoBehaviour
 {
@@ -11,22 +9,61 @@ public class PlayerComponent : MonoBehaviour
 
     private ActionControll AC;
 
+    [SerializeField] private GameObject bullet;
+    private bool isShot;
+
+    [SerializeField, Header("弾の生成を行うx座標")]
+    private float position_xSpawnBullet = 0.3f;
+    [SerializeField, Header("弾の発射間隔(秒)")]
+    private float INTERVAL_SHOT;
+    private float intervalShot;
+
+    [SerializeField, Header("体力")]
+    private int hp = 3;
+
     // Start is called before the first frame update
     void Start()
     {
+        // トリガー化
+        GetComponent<BoxCollider>().isTrigger = true;
+
+        // 重力落下、z移動、回転の禁止
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+
         inputMove = Vector3.zero;
 
         AC = new ActionControll(); // インプットアクションを取得
         AC.Player.Move.started += OnMove; // 全てのアクションにイベントを登録
         AC.Player.Move.performed += OnMove;
         AC.Player.Move.canceled += OnMove;
+        AC.Player.Shot.started += OnShot;
+        AC.Player.Shot.canceled += OnShot;
         AC.Enable(); // InputActionを機能させる為に有効化する。
+
+        isShot = false;
+        intervalShot = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
+
+        // 弾の発射
+        if (isShot) SpawnBullet();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Enemy")) return;
+
+        // ダメージ
+        hp--;
+
+        // ゲーム終了
+        if (hp <= 0) Destroy(gameObject);
     }
 
     private void OnDestroy()
@@ -62,5 +99,40 @@ public class PlayerComponent : MonoBehaviour
                 Mathf.Clamp(transform.position.y, -0.5f, 2.5f),
                 transform.position.z
             );
+    }
+
+    /// <summary>
+    /// Shotアクションの入力を取得する
+    /// </summary>
+    /// <param name="context">Shotアクションの入力</param>
+    private void OnShot(InputAction.CallbackContext context)
+    {
+        // nullチェック
+        if(bullet == null)
+        {
+            Debug.LogError("プレイヤーの弾が未設定です");
+            return;
+        }
+
+        isShot ^= true;
+    }
+
+    /// <summary>
+    /// 弾の生成
+    /// </summary>
+    private void SpawnBullet()
+    {
+        if (intervalShot <= 0)
+        {
+            intervalShot = INTERVAL_SHOT;
+
+            Instantiate
+            (
+                bullet,
+                transform.position + new Vector3(position_xSpawnBullet, 0),
+                Quaternion.identity
+            );
+        }
+        else intervalShot -= Time.deltaTime;
     }
 }
