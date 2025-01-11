@@ -10,7 +10,7 @@ public class PlayerComponent : MonoBehaviour
     private ActionControll AC;
 
     [SerializeField] private GameObject bullet;
-    private bool isShot;
+    private bool isShot; // true = ”­Ë’†, false = –¢”­Ë
 
     [SerializeField, Header("’e‚Ì¶¬‚ğs‚¤xÀ•W")]
     private float position_xSpawnBullet = 0.3f;

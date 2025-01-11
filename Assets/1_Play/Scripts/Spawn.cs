@@ -12,7 +12,10 @@ public class Spawn : MonoBehaviour
     [SerializeField] GameObject[] enemysChaos; // óºéŒÇﬂ
     private Dictionary<int, GameObject[]> enemysArray = new Dictionary<int, GameObject[]>();
 
+    [SerializeField, Header("ìGÇÃê∂ê¨ä‘äu(ïb)")]
+    private float INTERVAL_SPAWN = 5.0f;
     private float intervalSpawn;
+    private bool isFinished; // true = ê∂ê¨èIóπ, false = ñ¢ê∂ê¨
 
     // Start is called before the first frame update
     void Start()
@@ -25,19 +28,23 @@ public class Spawn : MonoBehaviour
         enemysArray[4] = enemysRain;
         enemysArray[5] = enemysChaos;
 
-        intervalSpawn = 5;
+        intervalSpawn = INTERVAL_SPAWN;
+        isFinished = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(intervalSpawn <= 0)
+        if (intervalSpawn <= 0)
         {
+            intervalSpawn = INTERVAL_SPAWN;
+            isFinished = true;
+
             // íäëIÇµÇƒê∂ê¨
             int rand = Random.Range(0, enemysArray.Count);
             StartCoroutine(SpawnEnemies(rand));
         }
-        else intervalSpawn -= Time.deltaTime;
+        else if (!isFinished) intervalSpawn -= Time.deltaTime;
     }
 
     /// <summary>
@@ -52,6 +59,6 @@ public class Spawn : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
-        intervalSpawn = 5;
+        isFinished = false;
     }
 }
