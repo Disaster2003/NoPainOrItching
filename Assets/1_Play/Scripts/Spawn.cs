@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    [SerializeField] GameObject[] enemysZ; // zé≤Ç…
-    [SerializeField] GameObject[] enemysSin; // sinîg
-    [SerializeField] GameObject[] enemysCin; // cin
-    [SerializeField] GameObject[] enemysShake; // ÇÆÇÌÇÒÇÆÇÌÇÒ
-    [SerializeField] GameObject[] enemysRain; // âJ
-    [SerializeField] GameObject[] enemysChaos; // óºéŒÇﬂ
+    [SerializeField] GameObject[] enemysZ;
+    [SerializeField] GameObject[] enemysSin;
+    [SerializeField] GameObject[] enemysCin;
+    [SerializeField] GameObject[] enemysShake;
+    [SerializeField] GameObject[] enemysRain;
+    [SerializeField] GameObject[] enemysChaos;
     private Dictionary<int, GameObject[]> enemysArray = new Dictionary<int, GameObject[]>();
 
     [SerializeField, Header("ìGÇÃê∂ê¨ä‘äu(ïb)")]
@@ -50,7 +50,7 @@ public class Spawn : MonoBehaviour
     /// <summary>
     /// ìGÇÃê∂ê¨
     /// </summary>
-    /// <param name="go">ê∂ê¨Ç∑ÇÈìG</param>
+    /// <param name="rand">íäëIÇ≈ëIÇŒÇÍÇΩêî</param>
     private IEnumerator SpawnEnemies(int rand)
     {
         for (int i = 0; i < enemysArray[rand].Length; i++)

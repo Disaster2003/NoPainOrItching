@@ -10,8 +10,7 @@ public class Timer : MonoBehaviour
     /// </summary>
     public static float GetTimer { get { return timer; } }
 
-    [SerializeField] private GameObject spawner;
-    [SerializeField] private GameObject boss;
+    [SerializeField] private GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +22,7 @@ public class Timer : MonoBehaviour
     void Update()
     {
         // nullチェック
-        if (spawner != null || boss == null) return;
+        if (player == null) return;
 
         // 時間計測
         timer += Time.deltaTime;

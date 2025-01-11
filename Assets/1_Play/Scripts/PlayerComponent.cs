@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerComponent : MonoBehaviour
 {
-    Vector3 inputMove;
+    private Vector3 inputMove;
 
     private ActionControll AC;
 
@@ -15,7 +15,7 @@ public class PlayerComponent : MonoBehaviour
     [SerializeField, Header("’e‚Ì¶¬‚ğs‚¤xÀ•W")]
     private float position_xSpawnBullet = 0.3f;
     [SerializeField, Header("’e‚Ì”­ËŠÔŠu(•b)")]
-    private float INTERVAL_SHOT;
+    private float INTERVAL_SHOT = 0.3f;
     private float intervalShot;
 
     [SerializeField, Header("‘Ì—Í")]

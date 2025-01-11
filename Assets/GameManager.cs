@@ -50,7 +50,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (state_scene == STATE_SCENE.PLAY)
+        {
+            if(!GameObject.FindGameObjectWithTag("Player"))
+            {
+                // ÉQÅ[ÉÄèIóπ
+                SetScene(STATE_SCENE.RESULT);
+            }
+        }
     }
 
     private void OnDestroy()
