@@ -7,12 +7,17 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    /// <summary>
+    /// インスタンスの取得
+    /// </summary>
+    public static GameManager GetInstance { get { return instance; } }
+
 
     private enum STATE_SCENE
     {
-        TITLE = 0,  // タイトル
-        PLAY = 1,   // プレイ
-        RESULT = 2, // リザルト
+        TITLE = 0,  // タイトル画面
+        PLAY = 1,   // プレイ画面
+        RESULT = 2, // 結果画面
     }
     private STATE_SCENE state_scene;
 
@@ -48,13 +53,13 @@ public class GameManager : MonoBehaviour
         
     }
 
-    /// <summary>
-    /// インスタンスの取得
-    /// </summary>
-    public static GameManager GetInstance { get { return instance; } }
+    private void OnDestroy()
+    {
+        AC.Disable(); // インプットアクションを破棄
+    }
 
     /// <summary>
-    /// 決定処理
+    /// Decideアクションの入力時処理
     /// </summary>
     /// <param name="context">決定ボタン</param>
     private void OnDecide(InputAction.CallbackContext context)
@@ -65,7 +70,6 @@ public class GameManager : MonoBehaviour
                 SetScene(STATE_SCENE.PLAY);
                 break;
             case STATE_SCENE.PLAY:
-                SetScene(STATE_SCENE.RESULT);
                 break;
             case STATE_SCENE.RESULT:
                 SetScene(STATE_SCENE.TITLE);
