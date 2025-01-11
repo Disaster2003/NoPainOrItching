@@ -16,11 +16,15 @@ public class EnemyComponent : MonoBehaviour
     [SerializeField] private STATE_ENEMY state_enemy;
 
     private Vector3 positionStart;
+    /// <summary>
+    /// 開始位置を設定する
+    /// </summary>
+    public Vector3 SetPositionStart { set { positionStart = value; } }
 
-    private float time;
+    private float time,
+        radian,
+        radius;
     private int plusAndMinus;
-
-    private float radian, radius;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +32,13 @@ public class EnemyComponent : MonoBehaviour
         // トリガー化
         GetComponent<BoxCollider>().isTrigger = true;
 
-        //transform.position = positionStart;
-        if(transform.position.x < 0) plusAndMinus = 1;
-        else plusAndMinus = -1;
+        transform.position = positionStart;
 
         radian = 0;
         radius = 0;
+
+        if (transform.position.x < 0) plusAndMinus = 1;
+        else plusAndMinus = -1;
     }
 
     // Update is called once per frame
