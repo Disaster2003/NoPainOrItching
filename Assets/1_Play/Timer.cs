@@ -5,6 +5,10 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     private static float timer;
+    /// <summary>
+    /// タイマーの取得
+    /// </summary>
+    public static float GetTimer { get { return timer; } }
 
     [SerializeField] private GameObject spawner;
     [SerializeField] private GameObject boss;
@@ -24,9 +28,4 @@ public class Timer : MonoBehaviour
         // 時間計測
         timer += Time.deltaTime;
     }
-
-    /// <summary>
-    /// タイマーの取得
-    /// </summary>
-    public static float GetTimer { get { return timer; } }
 }

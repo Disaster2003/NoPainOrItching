@@ -8,7 +8,7 @@ public class Blink : MonoBehaviour
     private Image imgStart;
 
     [SerializeField, Header("“_–ÅŽüŠú”{—¦")]
-    private float blinkCycle; // 0.75f
+    private float blinkCycle = 0.75f;
 
     // Start is called before the first frame update
     void Start()
