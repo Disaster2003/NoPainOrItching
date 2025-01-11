@@ -26,20 +26,7 @@ public class PlayerComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 十分にジョイスティックが倒れていない判定
-        if (inputMove.sqrMagnitude < 0.01f) return;
-
-        // 入力方向へ移動する
-        transform.position += inputMove.normalized * Time.fixedDeltaTime;
-
-        // 移動制限
-        transform.position =
-            new Vector3
-            (
-                Mathf.Clamp(transform.position.x, -2.5f, 2.5f), 
-                Mathf.Clamp(transform.position.y, -0.5f, 2.5f),
-                transform.position.z
-            );
+        Move();
     }
 
     private void OnDestroy()
@@ -51,8 +38,29 @@ public class PlayerComponent : MonoBehaviour
     /// Moveアクションの入力を取得する
     /// </summary>
     /// <param name="context">Moveアクションの入力値</param>
-    void OnMove(InputAction.CallbackContext context)
+    private void OnMove(InputAction.CallbackContext context)
     {
         inputMove = context.ReadValue<Vector2>();
+    }
+
+    /// <summary>
+    /// 移動処理
+    /// </summary>
+    private void Move()
+    {
+        // 十分にジョイスティックが倒れていない判定
+        if (inputMove.sqrMagnitude < 0.01f) return;
+
+        // 入力方向へ移動する
+        transform.position += inputMove.normalized * Time.fixedDeltaTime;
+
+        // 移動制限
+        transform.position =
+            new Vector3
+            (
+                Mathf.Clamp(transform.position.x, -2.5f, 2.5f),
+                Mathf.Clamp(transform.position.y, -0.5f, 2.5f),
+                transform.position.z
+            );
     }
 }
