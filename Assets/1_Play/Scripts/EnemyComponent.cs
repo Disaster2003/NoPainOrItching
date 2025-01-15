@@ -15,15 +15,12 @@ public class EnemyComponent : MonoBehaviour
     }
     [SerializeField] private STATE_ENEMY state_enemy;
 
-    private Vector3 positionStart;
-    /// <summary>
-    /// 開始位置を設定する
-    /// </summary>
-    public Vector3 SetPositionStart { set { positionStart = value; } }
+    public Vector3 POSITION_START;
 
     private float time,
         radian,
-        radius;
+        radius,
+        timerDistance;
     private int plusAndMinus;
 
     // Start is called before the first frame update
@@ -32,13 +29,30 @@ public class EnemyComponent : MonoBehaviour
         // トリガー化
         GetComponent<BoxCollider>().isTrigger = true;
 
-        transform.position = positionStart;
+        transform.position = POSITION_START;
 
         radian = 0;
         radius = 0;
 
-        if (transform.position.x < 0) plusAndMinus = 1;
-        else plusAndMinus = -1;
+        switch(state_enemy)
+        {
+            case STATE_ENEMY.SIN_Y:
+                plusAndMinus = (POSITION_START.y < 1) ? 1 : -1;
+                break;
+            case STATE_ENEMY.SIN_Z:
+            case STATE_ENEMY.SHAKE:
+                timerDistance = POSITION_START.y;
+                plusAndMinus = (POSITION_START.y % 1.0f == 0) ? 1 : -1;
+                break;
+            case STATE_ENEMY.CIRCLE:
+            case STATE_ENEMY.RAIN:
+            case STATE_ENEMY.CHAOS:
+                timerDistance = POSITION_START.x;
+
+                if(POSITION_START.x < 0) plusAndMinus = 1;
+                else plusAndMinus = -1;
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -52,16 +66,28 @@ public class EnemyComponent : MonoBehaviour
                 if (transform.position.x <= -3.0f) Destroy(gameObject);
 
                 transform.Translate(-Time.deltaTime, 0, 0);
-                transform.position = new Vector3(transform.position.x, positionStart.y + sin, positionStart.z);
+                transform.position =
+                    new Vector3
+                    (
+                        transform.position.x,
+                        POSITION_START.y + plusAndMinus * sin,
+                        POSITION_START.z
+                    );
                 break;
             case STATE_ENEMY.SIN_Z:
                 if (transform.position.x <= -3.0f) Destroy(gameObject);
 
                 transform.Translate(-Time.deltaTime, 0, 0);
-                transform.position = new Vector3(transform.position.x, positionStart.y, positionStart.z + sin);
+                transform.position =
+                    new Vector3
+                    (
+                        transform.position.x,
+                        POSITION_START.y,
+                        POSITION_START.z + plusAndMinus * sin
+                    );
                 break;
             case STATE_ENEMY.CIRCLE:
-                if (positionStart.x < 0)
+                if (POSITION_START.x < 0)
                 {
                     if (transform.position.x >= 3.0f)
                     {
@@ -70,25 +96,47 @@ public class EnemyComponent : MonoBehaviour
                 }
                 else if (transform.position.x <= -3.0f) Destroy(gameObject);
 
-                transform.position = new Vector3(positionStart.x + Mathf.Cos(radian) * radius, positionStart.y + Mathf.Sin(radian) * radius, -7.5f);
+                transform.position =
+                    new Vector3
+                    (
+                        POSITION_START.x + plusAndMinus * Mathf.Cos(radian) * radius,
+                        POSITION_START.y + Mathf.Sin(radian) * radius,
+                        POSITION_START.z
+                    );
                 radian += 2 * Time.deltaTime;
                 radius += 0.3f * Time.deltaTime;
                 break;
             case STATE_ENEMY.SHAKE:
+                if (timerDistance < 2)
+                {
+                    timerDistance += Time.deltaTime;
+                    return;
+                }
                 if (Mathf.Abs(transform.position.x) >= 3.0f) Destroy(gameObject);
 
                 time += Time.deltaTime;
-                transform.position = new Vector3(time * sin, positionStart.y, positionStart.z);
+                transform.position = new Vector3(plusAndMinus * time * sin, POSITION_START.y, POSITION_START.z);
                 break;
             case STATE_ENEMY.RAIN:
-                if (transform.position.x <= 0) Destroy(gameObject);
+                if (timerDistance < 2)
+                {
+                    timerDistance += Time.deltaTime;
+                    return;
+                }
+                if (transform.position.y <= 0) Destroy(gameObject);
 
                 transform.Translate(0, -Time.deltaTime, 0);
                 break;
             case STATE_ENEMY.CHAOS:
+                if (Mathf.Abs(timerDistance) < 2)
+                {
+                    if (timerDistance >= 0) timerDistance += Time.deltaTime;
+                    else timerDistance += -Time.deltaTime;
+                    return;
+                }
                 if (transform.position.y <= 0) Destroy(gameObject);
 
-                transform.Translate(plusAndMinus * Time.deltaTime, -Time.deltaTime, 0);
+                transform.Translate(-POSITION_START.x * Time.deltaTime, 0.75f * -Time.deltaTime, 0);
                 break;
         }
     }
