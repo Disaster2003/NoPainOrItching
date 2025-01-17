@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &135222327802030325
+--- !u!1 &1714872447656441212
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7450598486841809137}
-  - component: {fileID: 5627671097566316797}
-  - component: {fileID: 2503598279138694824}
-  - component: {fileID: 5351551173464053093}
-  - component: {fileID: -2598958817633560709}
-  - component: {fileID: 1568387565626916392}
-  m_Layer: 0
-  m_Name: EnemyCircle
+  - component: {fileID: 7021263293653288486}
+  - component: {fileID: 1734597912866050231}
+  - component: {fileID: 7915198346018964958}
+  - component: {fileID: 115437187168367470}
+  - component: {fileID: 4146417489612553446}
+  - component: {fileID: -3786715171429743488}
+  m_Layer: 6
+  m_Name: BulletIncrease
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7450598486841809137
+--- !u!4 &7021263293653288486
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135222327802030325}
+  m_GameObject: {fileID: 1714872447656441212}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: 0, y: 1, z: -7.5}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5627671097566316797
+--- !u!33 &1734597912866050231
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135222327802030325}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2503598279138694824
+  m_GameObject: {fileID: 1714872447656441212}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7915198346018964958
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135222327802030325}
+  m_GameObject: {fileID: 1714872447656441212}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -88,13 +88,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5351551173464053093
-BoxCollider:
+--- !u!135 &115437187168367470
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135222327802030325}
+  m_GameObject: {fileID: 1714872447656441212}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -107,15 +107,15 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &-2598958817633560709
+--- !u!54 &4146417489612553446
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135222327802030325}
+  m_GameObject: {fileID: 1714872447656441212}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
@@ -136,17 +136,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1568387565626916392
+--- !u!114 &-3786715171429743488
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135222327802030325}
+  m_GameObject: {fileID: 1714872447656441212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e95c1794b82e0e43811801e28bdcd03, type: 3}
+  m_Script: {fileID: 11500000, guid: 52a8786043e0e6546b14720542f803e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state_enemy: 2
-  POSITION_START: {x: -1.5, y: 1, z: -7.5}
+  clone: {fileID: 1714872447656441212}

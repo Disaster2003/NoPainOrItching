@@ -19,6 +19,8 @@ public class Spawn : MonoBehaviour
     private float intervalSpawn;
     private bool isFinished; // true = 生成終了, false = 未生成
 
+    [SerializeField] GameObject bulletIncrease;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +66,21 @@ public class Spawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // nullチェック
+        if(bulletIncrease == null)
+        {
+            Debug.LogError("敵の弾が未設定です");
+            return;
+        }
+
+        // 次へ
+        if (Timer.GetTimer > 90.0f)
+        {
+            Instantiate(bulletIncrease, new Vector3(-1, 1, -7.5f), Quaternion.identity);
+            Destroy(gameObject);
+            return;
+        }
+
         if (!isFinished)
         {
             if (intervalSpawn <= 0)

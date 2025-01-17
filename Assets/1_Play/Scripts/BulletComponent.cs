@@ -13,8 +13,10 @@ public class BulletComponent : MonoBehaviour
         // トリガー化
         GetComponent<SphereCollider>().isTrigger = true;
 
-        // 重力落下、z移動、回転の禁止
+        // コンポーネントの取得
         Rigidbody rb = GetComponent<Rigidbody>();
+
+        // 重力落下、z移動、回転の禁止
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
     }
@@ -29,6 +31,6 @@ public class BulletComponent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.name != "Player") Destroy(gameObject);
+        if (other.name != "Player") Destroy(gameObject);
     }
 }

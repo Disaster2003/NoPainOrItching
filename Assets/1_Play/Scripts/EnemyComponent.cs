@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyComponent : MonoBehaviour
 {
+    private Vector3 SCALE_BASE = new Vector3(0.3f, 0.3f, 0.3f);
+
     private enum STATE_ENEMY
     {
         SIN_Y,  // sin波をy座標に適応
@@ -26,14 +28,26 @@ public class EnemyComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 大きさの初期化
+        transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
         // トリガー化
         GetComponent<BoxCollider>().isTrigger = true;
 
+        // コンポーネントの取得
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        // 重力落下、回転禁止
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+        // 位置の初期化
         transform.position = POSITION_START;
 
         radian = 0;
         radius = 0;
 
+        // 正負の判断
         switch(state_enemy)
         {
             case STATE_ENEMY.SIN_Y:
@@ -58,14 +72,24 @@ public class EnemyComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.localScale.sqrMagnitude < SCALE_BASE.sqrMagnitude)
+        {
+            // 拡大
+            transform.localScale = Vector3.MoveTowards(transform.localScale, SCALE_BASE, Time.deltaTime);
+            return;
+        }
+
         float sin = 0.5f * Mathf.Sin(2 * Time.time);
 
         switch (state_enemy)
         {
             case STATE_ENEMY.SIN_Y:
                 if (transform.position.x <= -3.0f) Destroy(gameObject);
-
+                
+                // 移動
                 transform.Translate(-Time.deltaTime, 0, 0);
+                
+                // sin波をy座標に適用
                 transform.position =
                     new Vector3
                     (
@@ -77,7 +101,10 @@ public class EnemyComponent : MonoBehaviour
             case STATE_ENEMY.SIN_Z:
                 if (transform.position.x <= -3.0f) Destroy(gameObject);
 
+                // 移動
                 transform.Translate(-Time.deltaTime, 0, 0);
+
+                // sin波をz座標に適応
                 transform.position =
                     new Vector3
                     (
@@ -96,6 +123,7 @@ public class EnemyComponent : MonoBehaviour
                 }
                 else if (transform.position.x <= -3.0f) Destroy(gameObject);
 
+                // 円運動
                 transform.position =
                     new Vector3
                     (
@@ -114,6 +142,7 @@ public class EnemyComponent : MonoBehaviour
                 }
                 if (Mathf.Abs(transform.position.x) >= 3.0f) Destroy(gameObject);
 
+                // ゆらゆら
                 time += Time.deltaTime;
                 transform.position = new Vector3(plusAndMinus * time * sin, POSITION_START.y, POSITION_START.z);
                 break;
@@ -125,6 +154,7 @@ public class EnemyComponent : MonoBehaviour
                 }
                 if (transform.position.y <= 0) Destroy(gameObject);
 
+                // 落下
                 transform.Translate(0, -Time.deltaTime, 0);
                 break;
             case STATE_ENEMY.CHAOS:
@@ -136,6 +166,7 @@ public class EnemyComponent : MonoBehaviour
                 }
                 if (transform.position.y <= 0) Destroy(gameObject);
 
+                // 交差するように落下
                 transform.Translate(-POSITION_START.x * Time.deltaTime, 0.75f * -Time.deltaTime, 0);
                 break;
         }

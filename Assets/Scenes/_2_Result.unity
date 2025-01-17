@@ -370,11 +370,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c149daaf332836f459598fbf25451233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imgNumber:
+  imgNumbers:
   - {fileID: 1139659520}
   - {fileID: 1270959354}
   - {fileID: 1697262047}
-  sNumber:
+  spriteNumbers:
   - {fileID: 21300000, guid: ec8893f895bb1f44a9704fa952a6c2ae, type: 3}
   - {fileID: 21300000, guid: 0b63cacc532d0a145b65191588329cde, type: 3}
   - {fileID: 21300000, guid: d3eaf08b11ce7364689e05dc0542fc99, type: 3}

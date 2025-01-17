@@ -19,14 +19,14 @@ public class GameManager : MonoBehaviour
         PLAY = 1,   // プレイ画面
         RESULT = 2, // 結果画面
     }
-    private STATE_SCENE state_scene;
+    int buildIndex;
 
     ActionControll AC; // インプットアクションを定義
 
     // Start is called before the first frame update
     void Start()
     {
-        if (instance == null)
+        if (instance is null)
         {
             // インスタンスの初期化
             instance = this;
@@ -39,23 +39,24 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // 状態の初期化
-        state_scene = STATE_SCENE.TITLE;
+        // シーン番号の初期化
+        buildIndex = 0;
 
         AC = new ActionControll(); // インプットアクションを取得
-        AC.Player.Decide.started += OnDecide; // 全てのアクションにイベントを登録
+        AC.Player.Decide.performed += OnDecide; // 全てのアクションにイベントを登録
         AC.Enable(); // インプットアクションを機能させる為に有効化する。
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (state_scene == STATE_SCENE.PLAY)
+        if (buildIndex == (int)STATE_SCENE.PLAY)
         {
-            if(!GameObject.FindGameObjectWithTag("Player"))
+            if(PlayerComponent.Hp <= 0)
             {
                 // ゲーム終了
-                SetScene(STATE_SCENE.RESULT);
+                PlayerComponent.Hp = 1;
+                SetScene();
             }
         }
     }
@@ -71,15 +72,11 @@ public class GameManager : MonoBehaviour
     /// <param name="context">決定ボタン</param>
     private void OnDecide(InputAction.CallbackContext context)
     {
-        switch (state_scene)
+        switch (buildIndex)
         {
-            case STATE_SCENE.TITLE:
-                SetScene(STATE_SCENE.PLAY);
-                break;
-            case STATE_SCENE.PLAY:
-                break;
-            case STATE_SCENE.RESULT:
-                SetScene(STATE_SCENE.TITLE);
+            case (int)STATE_SCENE.TITLE:
+            case (int)STATE_SCENE.RESULT:
+                SetScene();
                 break;
         }
     }
@@ -88,9 +85,9 @@ public class GameManager : MonoBehaviour
     /// シーンの設定
     /// </summary>
     /// <param name="_state_scene">遷移先</param>
-    private void SetScene(STATE_SCENE _state_scene)
+    private void SetScene()
     {
-        state_scene = _state_scene;
-        SceneManager.LoadSceneAsync((int)state_scene);
+        buildIndex = (buildIndex >= (int)STATE_SCENE.RESULT) ? 0 : buildIndex + 1;
+        SceneManager.LoadSceneAsync(buildIndex);
     }
 }

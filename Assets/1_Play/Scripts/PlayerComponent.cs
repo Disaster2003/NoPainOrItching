@@ -18,8 +18,15 @@ public class PlayerComponent : MonoBehaviour
     private float INTERVAL_SHOT = 0.3f;
     private float intervalShot;
 
-    [SerializeField, Header("体力")]
-    private int hp = 3;
+    private static int hp = 5;
+    /// <summary>
+    /// hpを取得する
+    /// </summary>
+    public static int Hp
+    { 
+        get { return hp; }
+        set { hp = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -27,11 +34,13 @@ public class PlayerComponent : MonoBehaviour
         // トリガー化
         GetComponent<BoxCollider>().isTrigger = true;
 
-        // 重力落下、z移動、回転の禁止
+        // コンポーネントの取得
         Rigidbody rb = GetComponent<Rigidbody>();
+
+        // 重力落下、z移動、回転の禁止
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-
+        
         inputMove = Vector3.zero;
 
         AC = new ActionControll(); // インプットアクションを取得
@@ -44,6 +53,8 @@ public class PlayerComponent : MonoBehaviour
 
         isShot = false;
         intervalShot = 0;
+
+        hp = 5;
     }
 
     // Update is called once per frame
