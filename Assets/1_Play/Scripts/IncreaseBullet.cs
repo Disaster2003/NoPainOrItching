@@ -30,7 +30,7 @@ public class IncreaseBullet : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {  
         if (rb.velocity != Vector3.zero)
         {
             // 速度の取得
@@ -50,19 +50,20 @@ public class IncreaseBullet : MonoBehaviour
         }
 
         // 反射速度
-        Vector3 reflectVelocity = Vector3.Reflect(lastVelocity, collision.contacts[0].normal);
+        Vector3 velocityReflection = Vector3.Reflect(lastVelocity, collision.contacts[0].normal);
 
+        // 反射角度
         Quaternion angleReflection = Quaternion.Euler(0, 0, Random.Range(15, 60));
 
-        if (Vector3.Dot(angleReflection * reflectVelocity, collision.contacts[0].normal) >= 0)
+        if (Vector3.Dot(angleReflection * velocityReflection, collision.contacts[0].normal) >= 0)
         {
             // 反対に設定した角度分反射
-            ReflectObject(angleReflection * reflectVelocity);
+            ReflectObject(angleReflection * velocityReflection);
         }
         else
         {
             // 真反対に反射
-            ReflectObject(reflectVelocity);
+            ReflectObject(velocityReflection);
         }
 
         // クローンの生成
@@ -76,6 +77,5 @@ public class IncreaseBullet : MonoBehaviour
     private void ReflectObject(Vector3 _reflectVelocity)
     {
         rb.velocity = _reflectVelocity;
-        clone.GetComponent<Rigidbody>().velocity = rb.velocity;
     }
 }
