@@ -5,8 +5,7 @@ using UnityEngine;
 public class IncreaseBullet : MonoBehaviour
 {
     private Rigidbody rb;
-    private Vector3 lastVelocity;
-    private Quaternion ANGLE_BOUNCE = Quaternion.Euler(0, 0, 30);
+    [SerializeField] private Vector3 lastVelocity;
 
     [SerializeField] private GameObject clone;
 
@@ -32,8 +31,11 @@ public class IncreaseBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 速度の取得
-        lastVelocity = rb.velocity;
+        if (rb.velocity != Vector3.zero)
+        {
+            // 速度の取得
+            lastVelocity = rb.velocity;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -50,10 +52,12 @@ public class IncreaseBullet : MonoBehaviour
         // 反射速度
         Vector3 reflectVelocity = Vector3.Reflect(lastVelocity, collision.contacts[0].normal);
 
-        if (Vector3.Dot(ANGLE_BOUNCE * reflectVelocity, collision.contacts[0].normal) >= 0)
+        Quaternion angleReflection = Quaternion.Euler(0, 0, Random.Range(15, 60));
+
+        if (Vector3.Dot(angleReflection * reflectVelocity, collision.contacts[0].normal) >= 0)
         {
             // 反対に設定した角度分反射
-            ReflectObject(ANGLE_BOUNCE * reflectVelocity);
+            ReflectObject(angleReflection * reflectVelocity);
         }
         else
         {
