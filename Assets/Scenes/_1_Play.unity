@@ -533,6 +533,7 @@ MonoBehaviour:
   enemysShake: {fileID: 135222327802030325, guid: c9ce5e7ed0aaacb499741cc4be0ee3b3, type: 3}
   enemysRain: {fileID: 135222327802030325, guid: f98c67870592510429f1cbd07cba53a2, type: 3}
   enemysChaos: {fileID: 135222327802030325, guid: 8a1910277eb061145928654e56451002, type: 3}
+  enemy_status: {fileID: 4900000, guid: 320e0747d1bfed640a32044fdca7853c, type: 3}
   INTERVAL_SPAWN: 7.5
   bulletIncrease: {fileID: 1714872447656441212, guid: 82885c84af3a6fa4ca7db3563a058a37, type: 3}
 --- !u!1 &724191350

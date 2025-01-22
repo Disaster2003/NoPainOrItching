@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    [SerializeField] GameObject enemysSin_y;
-    [SerializeField] GameObject enemysSin_z;
-    [SerializeField] GameObject enemysCircle;
-    [SerializeField] GameObject enemysShake;
-    [SerializeField] GameObject enemysRain;
-    [SerializeField] GameObject enemysChaos;
+    [SerializeField] private GameObject enemysSin_y;
+    [SerializeField] private GameObject enemysSin_z;
+    [SerializeField] private GameObject enemysCircle;
+    [SerializeField] private GameObject enemysShake;
+    [SerializeField] private GameObject enemysRain;
+    [SerializeField] private GameObject enemysChaos;
     private List<GameObject> enemysArray = new List<GameObject>();
+    [SerializeField] private TextAsset enemy_status;
     private Dictionary<int, List<Vector3>> positionsStart = new Dictionary<int, List<Vector3>>();
 
     [SerializeField, Header("敵の生成間隔(秒)")]
@@ -33,8 +34,7 @@ public class Spawn : MonoBehaviour
         enemysArray.Add(enemysChaos);
 
         // csvの読み込み
-        TextAsset csvFile = Resources.Load("enemy_status") as TextAsset; // ResourcesにあるCSVファイルを格納
-        StringReader reader = new StringReader(csvFile.text); // TextAssetをStringReaderに変換
+        StringReader reader = new StringReader(enemy_status.text); // TextAssetをStringReaderに変換
         List<string[]> csvData = new List<string[]>(); // CSVファイルの中身を入れるリスト
         while (reader.Peek() != -1)
         {
